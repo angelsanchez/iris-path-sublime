@@ -1,4 +1,5 @@
 iris-path-sublime
 =================
 
-Iris Path Sublime Plugin
+This is a Sublime Text 2 plugin that autocompletes `iris.path` options. 
+
