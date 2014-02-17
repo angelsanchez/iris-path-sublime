@@ -6,19 +6,22 @@ class IrisPathCommand(sublime_plugin.EventListener):
 	def on_load(self, view):
 		if self._is_iris_path(view):
 			self._get_iris_path_items(view)
-			sublime.status_message('iris-path.js file loaded')
 
-	# Called after a view has been saved
+	# Called after a view has been saved.
 	def on_post_save(self, view):
 		if self._is_iris_path(view):
 			self._get_iris_path_items(view)
-			sublime.status_message('iris-path.js file refreshed')
 
 	# Called when a view is closed
 	def on_close(self, view):
 		if self._is_iris_path(view):
 			self.items = None
 			sublime.status_message('iris-path.js file closed')
+
+	# Called when a view gains input focus.
+	def on_activated(self, view):
+		if self._is_iris_path(view):
+			self._get_iris_path_items(view, True)
 
 	# Called when user types in a view
 	def on_query_completions(self, view, prefix, locations):
@@ -29,23 +32,29 @@ class IrisPathCommand(sublime_plugin.EventListener):
 		
 		if hasattr(self, 'items'):
 			return self.items
-		else:
-			sublime.status_message('iris-path.js file not found!')
 
 
 	def _is_iris_path(self, view):
 		return view.file_name().endswith('iris-path.js')
 
 
-	def _get_iris_path_items(self, view):
+	def _get_iris_path_items(self, view, silent=False):
 		
 		iris_path_str = view.substr(sublime.Region(12, view.size()))
-		iris_path_json = json.loads(iris_path_str)
 
 		self.items = []
-		self._add_json_to_items(iris_path_json, 'iris.path')
 
-		sublime.status_message('iris.path loaded!')
+		try:
+			iris_path_json = json.loads(iris_path_str)
+			self._add_json_to_items(iris_path_json, 'iris.path')
+			sublime.status_message('iris-path.js file loaded')
+
+		except ValueError:
+			msg = 'iris-path.js is a invalid json'
+			if silent:
+				sublime.status_message(msg)
+			else:
+				sublime.error_message(msg)
 
 
 	# Recursive
