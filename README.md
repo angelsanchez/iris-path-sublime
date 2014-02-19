@@ -8,9 +8,9 @@ This is a Sublime Text 2 plugin that autocompletes `iris.path` options.
 
 With [Package Control](http://wbond.net/sublime_packages/package_control):
 
-1. Open the Sublime Text Command Palette: `Ctrl + Shift + P`.
-2. Select `Package Control: Install Package` command.
-3. Find and install `Iris Path` plugin.
+1. Open the Sublime Text Command Palette: <kbd>Ctrl + Shift + P</kbd>.
+2. Select <kbd>Package Control: Install Package</kbd> command.
+3. Find and install <kbd>Iris Path</kbd> plugin.
 
 Manually:
 
